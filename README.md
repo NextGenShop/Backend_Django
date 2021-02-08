@@ -8,3 +8,8 @@ GET http://127.0.0.1:8000/product/ Example: http://127.0.0.1:8000/product/2, get
 POST http://127.0.0.1:8000/basket/
 PUT http://127.0.0.1:8000/basket/ Example: http://127.0.0.1:8000/basket/1, update basket id 1
 GET http://127.0.0.1:8000/basket/shopper/ Example: http://127.0.0.1:8000/basket/shopper/1, get shopping basket with shopperID 1
+
+# How to run
+
+    make build
+    make run
