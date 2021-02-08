@@ -10,88 +10,71 @@ class ShoppingBasketSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BasketDB
-        fields = ("basketID", "shopper", "items", "totalPrice")
+        fields = ("shopper", "items", "totalPrice")
 
     def get_items(self, obj):
-        basket_id = obj.basketID
-        item_list = BasketItem.objects.filter(basketID=basket_id).all()
+        shopper_id = obj.shopperId
+        item_list = BasketItem.objects.filter(shopperId=shopper_id).all()
         basket_items = []
         for item in item_list:
-            item_dict = {}
-            item_info = ProductDB.objects.filter(productID=item.productID).all()
-            for item_information in item_info:
-                item_dict["productID"] = item_information.productID
-                item_dict["name"] = item_information.name
-                item_dict["image"] = item_information.image
-                item_dict["price"] = item_information.price
-                item_dict["stock"] = item_information.stock
-                item_dict["soldBy"] = item_information.soldBy
+            item_info = ProductDB.objects.filter(productId=item.productId).all()
+            item_information = item_info[0]
+            item_dict = {"product": {"productId": item_information.productId, "name": item_information.name,
+                                     "image": item_information.image, "price": item_information.price,
+                                     "stock": item_information.stock, "soldBy": item_information.soldBy},
+                         "quantity": item.quantity}
             basket_items.append(item_dict)
-        # print(basket_items)
         return basket_items
 
     def get_shopper(self, obj):
-        shopper_id = obj.shopper
-        shoppers = ShopperDB.objects.filter(shopperID=shopper_id).all()
+        shopper_id = obj.shopperId
+        shoppers = ShopperDB.objects.filter(shopperId=shopper_id).all()
         shopper_information = []
         for shopper_info in shoppers:
-            shopper_dict = {"shopperID": shopper_info.shopperID, "shopperEmail": shopper_info.shopperEmail,
+            shopper_dict = {"shopperId": shopper_info.shopperId, "shopperEmail": shopper_info.shopperEmail,
                             "shopperName": shopper_info.shopperName, "shopperPhone": shopper_info.shopperPhone,
                             "shopperAddress": shopper_info.shopperAddress}
             shopper_information.append(shopper_dict)
         return shopper_information
 
 
-class ShoppingItemWriteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BasketItem
-        fields = ("basketID",)
-
-    def create(self, validated_data):
-        products = validated_data["items"]
-        print(products)
-        for product in products:
-            BasketItem(
-                basketID=validated_data["basketID"],
-                productID=product
-            )
-
-
-class ShoppingBasketWriteSerializer(serializers.ModelSerializer):
-    # items = ShoppingItemWriteSerializer()
+class ShoppingBasketModifySerializer(serializers.ModelSerializer):
     items = serializers.ListField()
 
     class Meta:
         model = BasketDB
-        fields = ("basketID", "shopper", "items", "totalPrice")
+        fields = ("shopperId", "items", "totalPrice")
 
     def create(self, validated_data):
         basket = BasketDB.objects.create(
-            basketID=validated_data["basketID"],
-            shopper=validated_data["shopper"],
+            shopperId=validated_data["shopperId"],
             totalPrice=validated_data["totalPrice"]
         )
         items = validated_data["items"]
         print(items)
         for item in items:
             BasketItem.objects.create(
-                basketID=validated_data["basketID"],
-                productID=item["productID"],
+                shopperId=validated_data["shopperId"],
+                productId=item["productId"],
                 quantity=item["quantity"]
             )
         return basket
 
     def update(self, instance, validated_data):
-        instance.shopper = validated_data.get("shopper", instance.shopper)
-        instance.totalPrice = validated_data.get("totalPrice", instance.totalPrice)
-        instance.save()
+        current_shopper_id = instance.shopperId
 
-        BasketItem.objects.filter(basketID=validated_data["basketID"]).delete()
+        sum_price = 0
+        BasketItem.objects.filter(shopperId=current_shopper_id).delete()
         items = validated_data["items"]
         for item in items:
             BasketItem.objects.create(
-                basketID=validated_data["basketID"],
-                productID=item["productID"],
+                shopperId=current_shopper_id,
+                productId=item["productId"],
                 quantity=item["quantity"]
             )
+            sum_price = sum_price + item["quantity"] * ProductDB.objects.get(productId=item["productId"]).price
+
+        instance.totalPrice = sum_price
+        instance.save()
+
         return instance

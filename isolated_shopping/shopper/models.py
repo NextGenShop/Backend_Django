@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 class ShopperDB(models.Model):
-    shopperID = models.AutoField(primary_key=True)
+    shopperId = models.AutoField(primary_key=True)
     shopperEmail = models.EmailField()
     shopperPassword = models.CharField(max_length=128)
     shopperName = models.CharField(max_length=50)
