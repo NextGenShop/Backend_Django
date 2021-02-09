@@ -1,9 +1,12 @@
-FROM python:3
+FROM python:3.8
 WORKDIR /src
 
 ENV PYTHONUNBUFFERED=1
+
+# Install requirements
 COPY isolated_shopping/requirements.txt /src/
 RUN pip install -r requirements.txt
+
 COPY isolated_shopping /src/
 
 RUN python manage.py migrate
