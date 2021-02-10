@@ -28,9 +28,9 @@ class ProductProcess(generics.ListCreateAPIView):
             if retailer is not None and len(retailer) != 0 and retailer.isspace() is not True:
                 if limit is not None and limit.isdigit():
                     limit = int(limit)
-                    return queryset_query.intersection(queryset.filter(soldBy__icontains=retailer))[:limit]
+                    return queryset_query.intersection(queryset.filter(retailer__icontains=retailer))[:limit]
                 else:
-                    return queryset_query.intersection(queryset.filter(soldBy__icontains=retailer))
+                    return queryset_query.intersection(queryset.filter(retailer__icontains=retailer))
             else:
                 if limit is not None and limit.isdigit():
                     limit = int(limit)
@@ -40,9 +40,9 @@ class ProductProcess(generics.ListCreateAPIView):
         elif retailer is not None and len(retailer) != 0 and retailer.isspace() is not True:
             if limit is not None and limit.isdigit():
                 limit = int(limit)
-                return queryset.filter(soldBy__icontains=retailer)[:limit]
+                return queryset.filter(retailer__icontains=retailer)[:limit]
             else:
-                return queryset.filter(soldBy__icontains=retailer)
+                return queryset.filter(retailer__icontains=retailer)
         else:
             raise ValidationError({"msg": ["Parameter Error"]})
 
@@ -58,7 +58,7 @@ class ProductSearchRetailer(generics.ListAPIView):
         queryset = ProductDB.objects.all()
         keyword = self.kwargs.get(self.lookup_url_kwarg)
         if keyword is not None and len(keyword) != 0 and keyword.isspace() is not True:
-            return queryset.filter(soldBy__icontains=keyword)
+            return queryset.filter(retailer__icontains=keyword)
         else:
             raise ValidationError({"msg": ["Parameter Error"]})
 
