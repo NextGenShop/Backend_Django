@@ -5,6 +5,6 @@ from .models import ProductDB
 # Register your models here.
 @admin.register(ProductDB)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'image', 'price', 'stock', 'soldBy')
+    list_display = ('name', 'image', 'price', 'stock', 'retailer')
     search_fields = list_display
     list_filter = list_display
