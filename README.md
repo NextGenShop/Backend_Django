@@ -15,3 +15,8 @@ Apis available:
 
     make build
     make run
+    
+    
+# Command to add mock data to sqlite db
+
+    python manage.py loaddata MockSupermarketDataset.json
