@@ -6,7 +6,7 @@ class ProductDB(models.Model):
     name = models.CharField(max_length=100)
     image = models.TextField(null=True)
     price = models.FloatField()
-    stock = models.PositiveIntegerField()
+    stock = models.PositiveIntegerField(default=1)
     retailer = models.CharField(max_length=100)
 
     def __str__(self):
