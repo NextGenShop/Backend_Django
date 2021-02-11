@@ -22,10 +22,5 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('admin/', admin.site.urls),
     path('product/', p_views.ProductProcess.as_view(), name='product_process'),
-    path('product/<int:pk>', p_views.GetProductById.as_view(), name='get_product_by_ID'),
-    path('product/retailer/<str:pk>/', p_views.ProductSearchRetailer.as_view(), name='product_query_by_retailer'),
-    # path('basket/shopper/<int:pk>', sb_views.GetBasketByShopperId.as_view(), name='basket_query_by_shopper'),
-    # path('basket/', sb_views.BasketPost.as_view(), name='basket_add'),
-    # path('basket/<int:pk>', sb_views.BasketUpdate.as_view(), name='basket_update'),
     path('basket/<int:pk>', sb_views.BasketProcess.as_view(), name='basket_process'),
 ]

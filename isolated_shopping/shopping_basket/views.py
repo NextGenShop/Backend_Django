@@ -10,39 +10,6 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
-# Create your views here.
-# get a shopping basket by shopping id
-# api: localhost:8000/basket/shopper/<int:pk>
-# class GetBasketByShopperId(generics.ListAPIView):
-#     serializer_class = ShoppingBasketSerializer
-#     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
-#     lookup_url_kwarg = "pk"
-#
-#     def get_queryset(self):
-#         keyword = self.kwargs.get(self.lookup_url_kwarg)
-#         if keyword is not None:
-#             queryset = BasketDB.objects.filter(shopper=keyword).exists()
-#             if queryset is True:
-#                 return BasketDB.objects.filter(shopper=keyword)
-#             else:
-#                 raise NotFound({"msg": ["Shopping Basket does not exist"]})
-#         else:
-#             raise ValidationError({"msg": ["Parameter Error"]})
-#
-#
-# class BasketPost(generics.CreateAPIView):
-#     serializer_class = ShoppingBasketModifySerializer
-#     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
-#     queryset = BasketDB.objects.get_queryset().all()
-#
-#
-# class BasketUpdate(generics.UpdateAPIView):
-#     serializer_class = ShoppingBasketModifySerializer
-#     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
-#     lookup_url_kwarg = "pk"
-#     queryset = BasketDB.objects.all()
-
-
 class BasketProcess(APIView):
 
     @staticmethod

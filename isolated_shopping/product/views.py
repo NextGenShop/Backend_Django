@@ -21,7 +21,6 @@ class ProductProcess(generics.ListCreateAPIView):
 
         if query is not None and len(query) != 0 and query.isspace() is not True:
             if query.isdigit():
-                print("****NUMBER****")
                 queryset_query = queryset.filter(name__icontains=query).union(queryset.filter(productId=query))
             else:
                 queryset_query = queryset.filter(name__icontains=query)
@@ -43,40 +42,5 @@ class ProductProcess(generics.ListCreateAPIView):
                 return queryset.filter(retailer__icontains=retailer)[:limit]
             else:
                 return queryset.filter(retailer__icontains=retailer)
-        else:
-            raise ValidationError({"msg": ["Parameter Error"]})
-
-
-# get products by retailer
-# test api: localhost:8000/product/retailer/<str:pk>
-class ProductSearchRetailer(generics.ListAPIView):
-    serializer_class = ProductSerializer
-    filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
-    lookup_url_kwarg = "pk"
-
-    def get_queryset(self):
-        queryset = ProductDB.objects.all()
-        keyword = self.kwargs.get(self.lookup_url_kwarg)
-        if keyword is not None and len(keyword) != 0 and keyword.isspace() is not True:
-            return queryset.filter(retailer__icontains=keyword)
-        else:
-            raise ValidationError({"msg": ["Parameter Error"]})
-
-
-# get product information by ProductID
-# test api: localhost:8000/product/<int:pk>
-class GetProductById(generics.ListAPIView):
-    serializer_class = ProductSerializer
-    filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
-    lookup_url_kwarg = "pk"
-
-    def get_queryset(self):
-        keyword = self.kwargs.get(self.lookup_url_kwarg)
-        if keyword is not None:
-            queryset = ProductDB.objects.filter(productId=keyword).exists()
-            if queryset is True:
-                return ProductDB.objects.filter(productId=keyword)
-            else:
-                raise NotFound({"msg": ["Product ID does not exist"]})
         else:
             raise ValidationError({"msg": ["Parameter Error"]})
