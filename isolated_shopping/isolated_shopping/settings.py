@@ -25,7 +25,7 @@ SECRET_KEY = '3^+#z+hp+i@$)8#c-^9kk71-d7ismwvq_l-9fu=kyky%+=7*ls'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ 'api.nextgenshop.co.uk', 'localhost' ]
+ALLOWED_HOSTS = [ 'api.nextgenshop.co.uk', 'localhost', '127.0.0.1' ]
 
 
 # Application definition
