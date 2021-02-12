@@ -18,6 +18,7 @@ from django.urls import path, include
 from product import views as p_views
 from shopping_basket import views as sb_views
 from tokens import views as t_views
+from gitwebhook import views as g_views
 
 urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
@@ -26,4 +27,5 @@ urlpatterns = [
     path('basket/<int:pk>', sb_views.BasketProcess.as_view(), name='basket_process'),
     path('tokens/speech-to-text', t_views.SpeechToTextTokenProcess.as_view(), name='speech_to_text_process'),
     path('tokens/text-to-speech', t_views.TextToSpeechTokenProcess.as_view(), name='text_to_speech_process'),
+    path('git-webhook/', g_views.UpdateServer, name='update_server'),
 ]
