@@ -12,4 +12,4 @@ class BasketItem(models.Model):
     basketItemId = models.AutoField(primary_key=True)
     shopperId = models.IntegerField()
     productId = models.IntegerField()
-    quantity = models.FloatField()
+    quantity = models.IntegerField()
