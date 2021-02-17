@@ -1,0 +1,24 @@
+[
+  {
+    "model": "shopper.ShopperDB",
+    "pk": 1,
+    "fields": {
+      "shopperEmail": "mockuser1@gmail.com",
+      "shopperPassword": "password",
+      "shopperName": "Mock User 1",
+      "shopperPhone": "0123456789",
+      "shopperAddress": "Mock Address"
+    }
+  },
+  {
+    "model": "shopper.ShopperDB",
+    "pk": 2,
+    "fields": {
+      "shopperEmail": "mockuser2@gmail.com",
+      "shopperPassword": "password",
+      "shopperName": "Mock User 2",
+      "shopperPhone": "0123456789",
+      "shopperAddress": "Mock Address"
+    }
+  }
+]

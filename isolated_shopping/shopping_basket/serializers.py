@@ -2,7 +2,8 @@ from rest_framework import serializers
 from .models import BasketDB, BasketItem
 from shopper.models import ShopperDB
 from product.models import ProductDB
-
+from product.serializer import ProductSerializer
+from shopper.serializer import ShopperSerializer
 
 class ShoppingBasketSerializer(serializers.ModelSerializer):
     items = serializers.SerializerMethodField()
@@ -18,10 +19,12 @@ class ShoppingBasketSerializer(serializers.ModelSerializer):
         basket_items = []
         for item in item_list:
             item_info = ProductDB.objects.filter(productId=item.productId).all()
-            item_information = item_info[0]
-            item_dict = {"product": {"productId": item_information.productId, "name": item_information.name,
-                                     "image": item_information.image, "price": item_information.price,
-                                     "stock": item_information.stock, "soldBy": item_information.soldBy},
+            # item_information = item_info[0]
+            # item_dict = {"product": {"productId": item_information.productId, "name": item_information.name,
+            #                          "image": item_information.image, "price": item_information.price,
+            #                          "stock": item_information.stock, "soldBy": item_information.soldBy},
+            #              "quantity": item.quantity}
+            item_dict = {"product": ProductSerializer(item_info[0]).data,
                          "quantity": item.quantity}
             basket_items.append(item_dict)
         return basket_items
@@ -31,9 +34,10 @@ class ShoppingBasketSerializer(serializers.ModelSerializer):
         shoppers = ShopperDB.objects.filter(shopperId=shopper_id).all()
         shopper_information = []
         for shopper_info in shoppers:
-            shopper_dict = {"shopperId": shopper_info.shopperId, "shopperEmail": shopper_info.shopperEmail,
-                            "shopperName": shopper_info.shopperName, "shopperPhone": shopper_info.shopperPhone,
-                            "shopperAddress": shopper_info.shopperAddress}
+            # shopper_dict = {"shopperId": shopper_info.shopperId, "shopperEmail": shopper_info.shopperEmail,
+            #                 "shopperName": shopper_info.shopperName, "shopperPhone": shopper_info.shopperPhone,
+            #                 "shopperAddress": shopper_info.shopperAddress}
+            shopper_dict = ShopperSerializer(shopper_info).data
             shopper_information.append(shopper_dict)
         return shopper_information
 

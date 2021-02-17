@@ -1,0 +1,18 @@
+[
+  {
+    "model": "shopping_basket.BasketDB",
+    "pk": 1,
+    "fields": {
+      "shopperId": 1,
+      "totalPrice": "120"
+    }
+  },
+  {
+    "model": "shopping_basket.BasketDB",
+    "pk": 2,
+    "fields": {
+      "shopperId": 2,
+      "totalPrice": "5"
+    }
+  }
+]

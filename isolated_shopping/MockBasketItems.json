@@ -1,0 +1,47 @@
+[
+  {
+    "model": "shopping_basket.BasketItem",
+    "pk": 1,
+    "fields": {
+      "shopperId": 1,
+      "productId": 1,
+      "quantity": 2
+    }
+  },
+  {
+    "model": "shopping_basket.BasketItem",
+    "pk": 2,
+    "fields": {
+      "shopperId": 1,
+      "productId": 2,
+      "quantity": 2
+    }
+  },
+  {
+    "model": "shopping_basket.BasketItem",
+    "pk": 3,
+    "fields": {
+      "shopperId": 1,
+      "productId": 3,
+      "quantity": 40
+    }
+  },
+  {
+    "model": "shopping_basket.BasketItem",
+    "pk": 4,
+    "fields": {
+      "shopperId": 1,
+      "productId": 16,
+      "quantity": 10
+    }
+  },
+  {
+    "model": "shopping_basket.BasketItem",
+    "pk": 5,
+    "fields": {
+      "shopperId": 2,
+      "productId": 9,
+      "quantity": 2
+    }
+  }
+]
