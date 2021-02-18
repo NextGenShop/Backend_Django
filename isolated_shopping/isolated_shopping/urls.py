@@ -27,5 +27,6 @@ urlpatterns = [
     path('basket/<int:pk>', sb_views.BasketProcess.as_view(), name='basket_process'),
     path('tokens/speech-to-text', t_views.SpeechToTextTokenProcess.as_view(), name='speech_to_text_process'),
     path('tokens/text-to-speech', t_views.TextToSpeechTokenProcess.as_view(), name='text_to_speech_process'),
+    path('tokens/assistant', t_views.AssistantTokenProcess.as_view(), name='assistant_process'),
     path('git-webhook/', g_views.UpdateServer, name='update_server'),
 ]
