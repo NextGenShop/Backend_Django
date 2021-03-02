@@ -1,6 +1,5 @@
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
-from rest_framework.exceptions import NotFound
 from .models import ProductDB
 from .serializer import ProductSerializer
 import django_filters
@@ -27,20 +26,22 @@ class ProductProcess(generics.ListCreateAPIView):
             if retailer is not None and len(retailer) != 0 and retailer.isspace() is not True:
                 if limit is not None and limit.isdigit():
                     limit = int(limit)
-                    return queryset_query.intersection(queryset.filter(retailer__icontains=retailer))[:limit]
+                    return queryset_query.intersection(
+                        queryset.filter(retailer__icontains=retailer)).order_by('-views', 'name')[:limit]
                 else:
-                    return queryset_query.intersection(queryset.filter(retailer__icontains=retailer))
+                    return queryset_query.intersection(
+                        queryset.filter(retailer__icontains=retailer)).order_by('-views', 'name')
             else:
                 if limit is not None and limit.isdigit():
                     limit = int(limit)
-                    return queryset_query[:limit]
+                    return queryset_query.order_by('-views', 'name')[:limit]
                 else:
-                    return queryset_query
+                    return queryset_query.order_by('-views', 'name')
         elif retailer is not None and len(retailer) != 0 and retailer.isspace() is not True:
             if limit is not None and limit.isdigit():
                 limit = int(limit)
-                return queryset.filter(retailer__icontains=retailer)[:limit]
+                return queryset.filter(retailer__icontains=retailer).order_by('-views', 'name')[:limit]
             else:
-                return queryset.filter(retailer__icontains=retailer)
+                return queryset.filter(retailer__icontains=retailer).order_by('-views', 'name')
         else:
             raise ValidationError({"msg": ["Parameter Error"]})
