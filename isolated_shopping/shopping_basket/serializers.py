@@ -52,16 +52,19 @@ class ShoppingBasketModifySerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         basket = BasketDB.objects.create(
             shopperId=validated_data["shopperId"],
-            totalPrice=validated_data["totalPrice"]
+            totalPrice=0
         )
+        sum_price = 0
         items = validated_data["items"]
-        print(items)
         for item in items:
             BasketItem.objects.create(
                 shopperId=validated_data["shopperId"],
-                productId=item["productId"],
+                productId=item["product"]["productId"],
                 quantity=item["quantity"]
             )
+            sum_price = sum_price + item["quantity"] * ProductDB.objects.get(productId=item["product"]["productId"]).price
+        basket.totalPrice = sum_price
+        basket.save()
         return basket
 
     def update(self, instance, validated_data):
@@ -73,11 +76,10 @@ class ShoppingBasketModifySerializer(serializers.ModelSerializer):
         for item in items:
             BasketItem.objects.create(
                 shopperId=current_shopper_id,
-                productId=item["productId"],
+                productId=item["product"]["productId"],
                 quantity=item["quantity"]
             )
-            sum_price = sum_price + item["quantity"] * ProductDB.objects.get(productId=item["productId"]).price
-
+            sum_price = sum_price + item["quantity"] * ProductDB.objects.get(productId=item["product"]["productId"]).price
         instance.totalPrice = sum_price
         instance.save()
 
