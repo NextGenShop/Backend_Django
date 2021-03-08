@@ -3,13 +3,14 @@ from django.db import models
 
 # Create your models here.
 class BasketDB(models.Model):
-    shopperId = models.IntegerField(primary_key=True, unique=True, null=False)
-    items = models.CharField(max_length=100, null=True)
-    totalPrice = models.FloatField()
+    basketId = models.AutoField(primary_key=True)
+    shopperId = models.IntegerField(unique=True, null=False)
+    totalPrice = models.FloatField(default=0, null=True)
+    isEmpty = models.BooleanField(default=True, null=True)
 
 
 class BasketItem(models.Model):
     basketItemId = models.AutoField(primary_key=True)
-    shopperId = models.IntegerField()
+    basketId = models.IntegerField(null=False)
     productId = models.IntegerField()
     quantity = models.IntegerField()
