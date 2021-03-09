@@ -61,8 +61,11 @@ class ShoppingBasketModifySerializer(serializers.ModelSerializer):
                 productId=item["product"]["productId"],
                 quantity=item["quantity"]
             )
-            sum_price = sum_price + item["quantity"] * ProductDB.objects.get(
-                productId=item["product"]["productId"]).price
+            product = ProductDB.objects.filter(productId=item["product"]["productId"])[0]
+            product_price = product.price
+            product.views = product.views + 1
+            product.save()
+            sum_price = sum_price + item["quantity"] * product_price
         basket.totalPrice = sum_price
         basket.save()
         return basket
@@ -78,8 +81,11 @@ class ShoppingBasketModifySerializer(serializers.ModelSerializer):
                 productId=item["product"]["productId"],
                 quantity=item["quantity"]
             )
-            sum_price = sum_price + item["quantity"] * ProductDB.objects.get(
-                productId=item["product"]["productId"]).price
+            product = ProductDB.objects.filter(productId=item["product"]["productId"])[0]
+            product_price = product.price
+            product.views = product.views + 1
+            product.save()
+            sum_price = sum_price + item["quantity"] * product_price
         instance.totalPrice = sum_price
         instance.isEmpty = False
         instance.save()
