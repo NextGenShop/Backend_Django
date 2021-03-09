@@ -40,6 +40,14 @@ class ShoppingBasketSerializer(serializers.ModelSerializer):
         return shopper_information
 
 
+def stock_check(items):
+    for item in items:
+        product = ProductDB.objects.filter(productId=item["product"]["productId"])[0]
+        product_stock = product.stock
+        if product_stock < item["quantity"]:
+            raise serializers.ValidationError("Do not have enough products in stock")
+
+
 class ShoppingBasketModifySerializer(serializers.ModelSerializer):
     items = serializers.ListField()
 
@@ -55,16 +63,17 @@ class ShoppingBasketModifySerializer(serializers.ModelSerializer):
         )
         sum_price = 0
         items = validated_data["items"]
+        stock_check(items)
         for item in items:
+            product = ProductDB.objects.filter(productId=item["product"]["productId"])[0]
+            product_price = product.price
+            product.views = product.views + 1
+            product.save()
             BasketItem.objects.create(
                 basketId=basket.basketId,
                 productId=item["product"]["productId"],
                 quantity=item["quantity"]
             )
-            product = ProductDB.objects.filter(productId=item["product"]["productId"])[0]
-            product_price = product.price
-            product.views = product.views + 1
-            product.save()
             sum_price = sum_price + item["quantity"] * product_price
         basket.totalPrice = sum_price
         basket.save()
@@ -75,16 +84,17 @@ class ShoppingBasketModifySerializer(serializers.ModelSerializer):
         BasketItem.objects.filter(basketId=basket_id).delete()
         items = validated_data["items"]
         sum_price = 0
+        stock_check(items)
         for item in items:
+            product = ProductDB.objects.filter(productId=item["product"]["productId"])[0]
+            product_price = product.price
+            product.views = product.views + 1
+            product.save()
             BasketItem.objects.create(
                 basketId=basket_id,
                 productId=item["product"]["productId"],
                 quantity=item["quantity"]
             )
-            product = ProductDB.objects.filter(productId=item["product"]["productId"])[0]
-            product_price = product.price
-            product.views = product.views + 1
-            product.save()
             sum_price = sum_price + item["quantity"] * product_price
         instance.totalPrice = sum_price
         instance.isEmpty = False
