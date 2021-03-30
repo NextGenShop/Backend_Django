@@ -1,20 +1,25 @@
 # Backend_Django
 
-Apis available:
+Local URL: http://127.00.1
 
-POST: http://127.0.0.1:8000/product/
+Default PORT: 8000
 
-GET http://127.0.0.1:8000/product/ Available parameters: query=, retailer=, limit=
+## APIs available:
 
-GET http://127.0.0.1:8000/basket/{ShopperId}
+POST **/product**
 
-PUT http://127.0.0.1:8000/basket/{ShopperId} Info required in Json: {"items":[{"ProductId": example id, "quantity": example number}]}
+GET **/product** Available parameters: query=, retailer=, limit=
 
-DELETE http://127.0.0.1:8000/basket/{ShopperId}
+GET **/basket/{ShopperId}**
 
-IBM Watson Tokens:
-GET http://127.0.0.1:8000/tokens/speech-to-text
-GET http://127.0.0.1:8000/tokens/text-to-speech
+PUT **/basket/{ShopperId}** Info required in JSON: {"items":[{"ProductId": example id, "quantity": example number}]}
+
+DELETE **/basket/{ShopperId}**
+
+## IBM Watson Tokens:
+GET /tokens/speech-to-text
+
+GET /tokens/text-to-speech
 
 # Setup
 

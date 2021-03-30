@@ -1,10 +1,10 @@
-IMAGE=nextgenshop_backend
-PORT=8000
+NEXTGENSHOP_BACKEND_IMAGE?=nextgenshop/backend
+NEXTGENSHOP_BACKEND_PORT?=80
 
 build:
-	docker build --tag=${IMAGE} .
+	docker build --tag=${NEXTGENSHOP_BACKEND_IMAGE} .
 
-run:
+run: build
 	docker run --rm \
-		-p ${PORT}:8000 \
-		${IMAGE}
+		-p ${NEXTGENSHOP_BACKEND_PORT}:8000 \
+		${NEXTGENSHOP_BACKEND_IMAGE}
